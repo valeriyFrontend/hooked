@@ -1,0 +1,43 @@
+.relative {
+	position: relative;
+}
+
+.grid {
+	display: grid;
+}
+
+.flex {
+	display: flex;
+}
+
+.flex-column {
+	flex-direction: column;
+}
+
+.align-center {
+	align-items: center;
+}
+
+.justify-center {
+	justify-content: center;
+}
+
+.justify-end {
+	justify-content: end;
+}
+
+.space-between {
+	justify-content: space-between;
+}
+
+.regular {
+	font-weight: normal;
+}
+
+.medium {
+	font-weight: 500;
+}
+
+.semi-bold {
+	font-weight: 600;
+}

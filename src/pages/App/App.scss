@@ -1,0 +1,21 @@
+.app {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  text-align: center;
+  &__movies {
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 20px;
+    padding: 25px;
+  }
+  &__content {
+    padding: 0 20px;
+    &__error {
+      &__message {
+        margin: auto;
+        font-weight: bold;
+        color: rgb(161, 15, 15);
+      }
+    }
+  }
+}
