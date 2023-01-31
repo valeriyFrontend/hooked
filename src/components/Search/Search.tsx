@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { Button, TextField } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
 import "./search.scss";
 
 const Search = ({ search }: { search: (value: string) => void }) => {
@@ -19,11 +20,18 @@ const Search = ({ search }: { search: (value: string) => void }) => {
   };
 
   return (
-    <>
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      spacing={2}
+      mt={2}
+    >
       <TextField
         id="outlined-search"
         label="Search field"
         type="search"
+        size="small"
         onChange={handleSearchInputChanges}
       />
       <Button
@@ -35,7 +43,7 @@ const Search = ({ search }: { search: (value: string) => void }) => {
       >
         Search
       </Button>
-    </>
+    </Grid>
   );
 };
 
