@@ -22,4 +22,12 @@ export interface Movie {
   Title: string;
   Year: string;
   imdbRating: number;
+  Plot: string;
+  Actors: string;
+  Country: string;
+  Released: string;
+  Director: string;
+  Genre: string;
+  Runtime: string;
+  imdbVotes: string;
 }

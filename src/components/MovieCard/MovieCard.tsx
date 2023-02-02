@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Grid,
   Card,
@@ -19,8 +20,6 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
   } | null>(null);
   const defaultPlaceholder = "../../assets/images/default-placeholder.png";
 
-  console.log({ movieData });
-
   useEffect(() => {
     getMoviesData(movie?.imdbID).then((movie) => {
       setMovieData(movie);
@@ -31,24 +30,26 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
 
   return (
     <Grid item md={3}>
-      <Card sx={{ height: "100%" }}>
-        <CardActionArea sx={{ height: "100%" }}>
-          <CardMedia
-            component="img"
-            height="140"
-            image={poster}
-            alt="green iguana"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {movieData?.Title}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {movieData?.Plot}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
+      <Link to={`/movie/${movie?.imdbID}`}>
+        <Card sx={{ height: "100%" }}>
+          <CardActionArea sx={{ height: "100%" }}>
+            <CardMedia
+              component="img"
+              height="140"
+              image={poster}
+              alt="green iguana"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {movieData?.Title}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {movieData?.Plot}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      </Link>
     </Grid>
   );
 };
