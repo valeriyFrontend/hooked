@@ -4,9 +4,9 @@
   height: 100%;
   text-align: center;
   &__movies {
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: 20px;
-    padding: 25px;
+    &__loader {
+        margin: auto;
+    }
   }
   &__content {
     padding: 0 20px;

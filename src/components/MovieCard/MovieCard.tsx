@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  Grid,
   Card,
   CardActionArea,
   CardMedia,
@@ -29,24 +30,26 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
   const poster = movie?.Poster === "N/A" ? defaultPlaceholder : movie?.Poster;
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image={poster}
-          alt="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {movieData?.Title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {movieData?.Plot}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+    <Grid item md={3}>
+      <Card sx={{ height: "100%" }}>
+        <CardActionArea sx={{ height: "100%" }}>
+          <CardMedia
+            component="img"
+            height="140"
+            image={poster}
+            alt="green iguana"
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {movieData?.Title}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {movieData?.Plot}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    </Grid>
   );
 };
 

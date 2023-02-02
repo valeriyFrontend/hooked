@@ -1,4 +1,5 @@
 import { useEffect, useReducer } from "react";
+import { Grid } from "@mui/material";
 import { getDefaultMovies } from "../../api/getDefaultMovies";
 import { getMoviesByName } from "../../api/getMoviesByName";
 import { db } from "../../firebase";
@@ -69,17 +70,17 @@ const App = () => {
         <Header title="HOOKED" />
         <Search search={search} />
       </div>
-      <div className="app__movies grid">
-        {loading && !errorMessage ? (
-          <LoaderIcon />
-        ) : errorMessage ? (
-          <div className="app__content__error__message">{errorMessage}</div>
-        ) : (
-          movies?.map((movie: Movie, index: number) => (
+      {loading && !errorMessage ? (
+        <LoaderIcon className="app__movies__loader" />
+      ) : errorMessage ? (
+        <div className="app__content__error__message">{errorMessage}</div>
+      ) : (
+        <Grid container spacing={2} padding={4}>
+          {movies?.map((movie: Movie, index: number) => (
             <MovieCard key={`${index}-${movie.Title}`} movie={movie} />
-          ))
-        )}
-      </div>
+          ))}
+        </Grid>
+      )}
     </div>
   );
 };
