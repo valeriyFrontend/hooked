@@ -1,21 +1,18 @@
 import { useEffect, useReducer } from "react";
-import { Grid } from "@mui/material";
 import { getDefaultMovies } from "../../api/getDefaultMovies";
 import { getMoviesByName } from "../../api/getMoviesByName";
-import { db } from "../../firebase";
 import Header from "../../components/Header/Header";
 import MovieCard from "../../components/MovieCard/MovieCard";
 import { searchReducer } from "../../reducers/searchReducer";
-// TODO: Fix typescript error
-// @ts-ignore
-import { ReactComponent as LoaderIcon } from "../../assets/icons/loader.svg";
-import "./App.scss";
 import {
   Movie,
   SearchActionKind,
   SearchState,
 } from "../../types/interfaces/interfaces";
 import Search from "../../components/Search/Search";
+import Loader from "../../components/Loader/Loader";
+import { Grid } from "@mui/material";
+import "./app.scss";
 
 const initialState: SearchState = {
   loading: true,
@@ -27,29 +24,23 @@ const App = () => {
   const [state, dispatch] = useReducer(searchReducer, initialState);
   const { movies, errorMessage, loading } = state;
 
-  const fetchClasses = async () => {
-    const itemsRef = await db.collection("favorites").get();
-    return itemsRef.docs.map((doc) => doc.data());
-  };
-
   useEffect(() => {
-    fetchClasses().then();
-  }, []);
-
-  useEffect(() => {
-    getDefaultMovies().then((movies) => {
+    const fetchData = async () => {
+      const movies = await getDefaultMovies();
       dispatch({
         type: SearchActionKind.SEARCH_MOVIES_SUCCESS,
         payload: movies.Search,
       });
-    });
+    };
+
+    fetchData();
   }, []);
 
-  const search = (searchValue: string) => {
-    dispatch({
-      type: SearchActionKind.SEARCH_MOVIES_REQUEST,
-    });
-    getMoviesByName(searchValue).then((movies) => {
+  const search = async (searchValue: string) => {
+    dispatch({ type: SearchActionKind.SEARCH_MOVIES_REQUEST });
+
+    try {
+      const movies = await getMoviesByName(searchValue);
       if (movies.Response === "True") {
         dispatch({
           type: SearchActionKind.SEARCH_MOVIES_SUCCESS,
@@ -61,7 +52,9 @@ const App = () => {
           error: movies.Error,
         });
       }
-    });
+    } catch (error: any) {
+      dispatch({ type: SearchActionKind.SEARCH_MOVIES_FAILURE, error });
+    }
   };
 
   return (
@@ -70,8 +63,8 @@ const App = () => {
         <Header title="HOOKED" />
         <Search search={search} />
       </div>
-      {loading && !errorMessage ? (
-        <LoaderIcon className="app__movies__loader" />
+      {loading ? (
+        <Loader />
       ) : errorMessage ? (
         <div className="app__content__error__message">{errorMessage}</div>
       ) : (

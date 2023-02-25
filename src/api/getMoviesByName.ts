@@ -1,5 +1,8 @@
-export const getMoviesByName = (searchValue: string) => {
-  return fetch(
+import axios from 'axios';
+
+export const getMoviesByName = async (searchValue: string) => {
+  const response = await axios.get(
     `${process.env.REACT_APP_OMDB_API}?s=${searchValue}&apikey=${process.env.REACT_APP_API_KEY}`
-  ).then((response) => response.json());
+  );
+  return response.data;
 };

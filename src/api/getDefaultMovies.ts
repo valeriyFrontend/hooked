@@ -1,5 +1,8 @@
-export const getDefaultMovies = () => {
-  return fetch(
+import axios from 'axios';
+
+export const getDefaultMovies = async () => {
+  const response = await axios.get(
     `${process.env.REACT_APP_OMDB_API}?s=man&apikey=${process.env.REACT_APP_API_KEY}`
-  ).then((response) => response.json());
+  );
+  return response.data;
 };

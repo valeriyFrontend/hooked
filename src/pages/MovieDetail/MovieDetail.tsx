@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Paper, Typography, Grid } from "@mui/material";
 import { getMoviesData } from "../../api/getMovieData";
 import { Movie } from "../../types/interfaces/interfaces";
+import { Paper, Typography, Grid } from "@mui/material";
 import "./movieDetail.scss";
 
 const MovieDetail = () => {

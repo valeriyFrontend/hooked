@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getMoviesData } from "../../api/getMovieData";
+import { Movie } from "../../types/interfaces/interfaces";
 import {
   Grid,
   Card,
@@ -8,8 +10,7 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-import { getMoviesData } from "../../api/getMovieData";
-import { Movie } from "../../types/interfaces/interfaces";
+import defaultPlaceholder from "../../assets/images/default-placeholder.png";
 import "./movieCard.scss";
 
 const MovieCard = ({ movie }: { movie: Movie }) => {
@@ -18,7 +19,6 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
     Plot: string;
     imdbRating: string;
   } | null>(null);
-  const defaultPlaceholder = "../../assets/images/default-placeholder.png";
 
   useEffect(() => {
     getMoviesData(movie?.imdbID).then((movie) => {
