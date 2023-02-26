@@ -3,10 +3,13 @@ import { useParams, Link } from "react-router-dom";
 import { getMoviesData } from "../../api/getMovieData";
 import { Movie } from "../../types/interfaces/interfaces";
 import { Paper, Typography, Grid } from "@mui/material";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css"; // import the default styles
 import "./movieDetail.scss";
 
 const MovieDetail = () => {
   const [movieData, setMovieData] = useState<Movie>();
+  const [zoomed, setZoomed] = useState(false);
   const { id } = useParams();
 
   useEffect(() => {
@@ -15,6 +18,10 @@ const MovieDetail = () => {
       setMovieData(movie);
     });
   }, [id]);
+
+  function toggleZoom() {
+    setZoomed(!zoomed);
+  }
 
   return (
     <>
@@ -29,7 +36,14 @@ const MovieDetail = () => {
               width: "max-content",
             }}
           >
-            <img src={movieData?.Poster || ""} alt="Poster" />
+            <div
+              className={`image-container ${zoomed ? "zoomed" : ""}`}
+              onClick={toggleZoom}
+            >
+              <Zoom>
+                <img alt="Poster" src={movieData?.Poster || ""} />
+              </Zoom>
+            </div>
           </Paper>
         </Grid>
         <Grid item md={9}>
