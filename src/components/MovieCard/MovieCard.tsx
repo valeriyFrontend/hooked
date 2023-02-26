@@ -33,12 +33,15 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
       <Link to={`/movie/${movie?.imdbID}`}>
         <Card sx={{ height: "100%" }}>
           <CardActionArea sx={{ height: "100%" }}>
-            <CardMedia
-              component="img"
-              height="140"
-              image={poster}
-              alt="green iguana"
-            />
+            <div className="movie-card__image-container">
+              <CardMedia
+                component="img"
+                height="140"
+                image={poster}
+                className="movie-card__image"
+                alt="green iguana"
+              />
+            </div>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
                 {movieData?.Title}
