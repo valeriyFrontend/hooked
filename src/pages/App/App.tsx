@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useState, useEffect, useReducer } from "react";
 import { getDefaultMovies } from "../../api/getDefaultMovies";
 import { getMoviesByName } from "../../api/getMoviesByName";
 import Header from "../../components/Header/Header";
@@ -22,19 +22,34 @@ const initialState: SearchState = {
 
 const App = () => {
   const [state, dispatch] = useReducer(searchReducer, initialState);
+  const [page, setPage] = useState(1);
   const { movies, errorMessage, loading } = state;
 
   useEffect(() => {
     const fetchData = async () => {
-      const movies = await getDefaultMovies();
+      const moviesData = await getDefaultMovies(page);
       dispatch({
         type: SearchActionKind.SEARCH_MOVIES_SUCCESS,
-        payload: movies.Search,
+        payload: [...movies, ...moviesData.Search],
       });
     };
 
     fetchData();
-  }, []);
+  }, [page]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + Math.round(window.scrollY) >=
+          document.body.scrollHeight &&
+        !loading
+      ) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [loading]);
 
   const search = async (searchValue: string) => {
     dispatch({ type: SearchActionKind.SEARCH_MOVIES_REQUEST });
