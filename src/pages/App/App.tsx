@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from "react";
+import { useState, useEffect, useReducer, useCallback } from 'react';
 import { getDefaultMovies } from "../../api/getDefaultMovies";
 import { getMoviesByName } from "../../api/getMoviesByName";
 import Header from "../../components/Header/Header";
@@ -37,19 +37,18 @@ const App = () => {
     fetchData();
   }, [page]);
 
+  const handleScroll = useCallback(() => {
+    if (window.innerHeight + Math.round(window.scrollY) >= document.body.scrollHeight && !loading) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  }, [loading, setPage]);
+
   useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + Math.round(window.scrollY) >=
-          document.body.scrollHeight &&
-        !loading
-      ) {
-        setPage((prevPage) => prevPage + 1);
-      }
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [loading]);
+  }, [handleScroll]);
 
   const search = async (searchValue: string) => {
     dispatch({ type: SearchActionKind.SEARCH_MOVIES_REQUEST });
